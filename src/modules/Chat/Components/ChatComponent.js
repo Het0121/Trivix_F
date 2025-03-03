@@ -130,7 +130,7 @@ const ChatApp = ({ messagesData, chatList }) => {
           style={{
             flex: 1,
             overflowY: "auto",
-            maxHeight: "calc(95vh - 150px)",
+            maxHeight: "calc(85vh - 150px)",
             padding: "20px 5px",
             scrollbarWidth: "thin",
             scrollbarColor: "white",
