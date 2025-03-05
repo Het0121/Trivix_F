@@ -82,16 +82,20 @@ const CustomeSearch = ({
           <Grid.Column width={6}>
             <div style={{ display: Mobile, marginLeft: "-12px" }}>
               <div style={{ display: "flex", gap: "5px" }}>
-                <CustomIcon
-                  name="bell outline"
-                  size={"large"}
-                  style={{ color: theme.colors.orange }}
-                />
-                <CustomIcon
-                  name="comments outline"
-                  size={"large"}
-                  style={{ color: theme.colors.orange }}
-                />
+                <a href="/notificaton">
+                  <CustomIcon
+                    name="bell outline"
+                    size="large"
+                    style={{ color: theme.colors.orange }}
+                  />
+                </a>
+                <a href="/chat">
+                  <CustomIcon
+                    name="comments outline"
+                    size="large"
+                    style={{ color: theme.colors.orange }}
+                  />
+                </a>
               </div>
             </div>
           </Grid.Column>
