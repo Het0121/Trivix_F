@@ -82,7 +82,7 @@ const CustomeSearch = ({
           <Grid.Column width={6}>
             <div style={{ display: Mobile, marginLeft: "-12px" }}>
               <div style={{ display: "flex", gap: "5px" }}>
-                <a href="/notificaton">
+                <a href="/notification">
                   <CustomIcon
                     name="bell outline"
                     size="large"
