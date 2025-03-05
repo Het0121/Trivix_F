@@ -1,101 +1,70 @@
+import Cookies from "js-cookie";
 import React from "react";
-import { Divider, Header, Segment } from "semantic-ui-react";
+import { useDispatch } from "react-redux";
 import "semantic-ui-css/semantic.min.css";
 import styled from "styled-components";
 import {
-  StyledSidebar,
-  SidebarContainer,
-  MenuItem,
+  LogoutButton,
+  SidebarHeader,
+  SidebarItem,
+  SidebarMenu,
+  SidebarWrapper,
 } from "../../assets/Css/Sidebar/styled"; // Import the styled components
-import BottomNav from "./mobileSidebar"; // Import the bottom navigation bar
-import menuItems from "./ListData";
-import CustomIcon from "../Icon";
 import ProfileCard from "../../components/Cards/ProfileCards";
-import { useDispatch } from "react-redux";
 import { logout } from "../../modules/Auth/Actions/Actions";
-import Cookies from "js-cookie";
-// Hide sidebar on mobile screens
-const ResponsiveSidebarContainer = styled(SidebarContainer)`
-  @media (max-width: 1024px) {
-    display: none;
-    padding: 0px;
-  }
-`;
+import CustomIcon from "../Icon";
+import menuItems from "./ListData";
+import BottomNav from "./mobileSidebar"; // Import the bottom navigation bar
+import { useLocation, useNavigate } from "react-router-dom";
+import useWindowSize from "../../hooks/Screen";
 
-// Show bottom navigation only on mobile and tablet
-const ResponsiveBottomNav = styled.div`
-  display: none;
-  @media (max-width: 1024px) {
-    display: block; /* Show only on mobile and tablet screens */
-  }
-`;
+const CustomSidebar = () => {
+  const { width } = useWindowSize();
 
-const CustomeSidebar = () => {
+  const DesktopSidebar = width <= 1026 ? "none" : "block";
+  const MobileNav = width > 1024 ? "none" : "block";
+
   const dispatch = useDispatch();
+  const location = useLocation();
+  const navigate = useNavigate();
+
   const handleLogOut = () => {
     dispatch(logout);
     Cookies.remove("user");
+    localStorage.removeItem("persist:root");
+    navigate("/auth/login");
   };
 
   return (
     <>
       {/* Sidebar for Desktop */}
-      <ResponsiveSidebarContainer>
-        <StyledSidebar vertical visible width="thin">
-          <Segment style={{ border: "none" }}>
-            <Header as="h2" textAlign="center">
-              Explorify
-            </Header>
-          </Segment>
-          {menuItems.map((item, index) => (
-            <a href={item.url}>
-              <MenuItem key={index} as="a">
-                <div
-                  style={{
-                    display: "flex",
-                    width: "130px",
-                    padding: 0,
-                    gap: "15px",
-                  }}
-                >
-                  <CustomIcon name={item.icon} className="menu-icon" />
-                  <Header as="h4" className="menu-header">
-                    {item.name}
-                  </Header>
-                </div>
-              </MenuItem>
-            </a>
-          ))}
-          <Divider />
-          <MenuItem as="a" onClick={handleLogOut}>
-            <div
-              style={{
-                display: "flex",
-                width: "130px",
-                padding: 0,
-                gap: "15px",
-              }}
-            >
-              <CustomIcon name={"log out"} className="menu-icon" />
-              {/* <a href="/auth/login"> */}
-              <Header as="h4" className="menu-header">
-                Logout
-              </Header>
-              {/* </a> */}
-            </div>
-          </MenuItem>
-          <div style={{ marginTop: "40px" }}>
+      <div style={{ display: DesktopSidebar }}>
+        <SidebarWrapper>
+          <SidebarHeader>Explorify</SidebarHeader>
+          <SidebarMenu>
+            {menuItems.map((item, index) => (
+              <SidebarItem key={index} href={item.url}>
+                <CustomIcon name={item.icon} className="menu-icon" />
+                {item.name}
+              </SidebarItem>
+            ))}
+            <LogoutButton onClick={handleLogOut}>
+              <CustomIcon name="log out" className="menu-icon" />
+              Logout
+            </LogoutButton>
+          </SidebarMenu>
+          <div style={{ marginTop: "20px", width: "99%", top: "60px" }}>
             <ProfileCard />
           </div>
-        </StyledSidebar>
-      </ResponsiveSidebarContainer>
-
-      {/* Bottom Navigation for Mobile & Tablet */}
-      <ResponsiveBottomNav>
-        <BottomNav />
-      </ResponsiveBottomNav>
+        </SidebarWrapper>
+      </div>
+      {/* Bottom Navigation for Mobile */}
+      {!location.pathname.startsWith("/chat") && (
+        <div style={{ display: MobileNav }}>
+          <BottomNav handleLogOut={handleLogOut} />
+        </div>
+      )}
     </>
   );
 };
-
-export default CustomeSidebar;
+export default CustomSidebar;

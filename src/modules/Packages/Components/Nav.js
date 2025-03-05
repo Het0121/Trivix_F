@@ -3,8 +3,11 @@ import { Grid, Header, Image } from "semantic-ui-react";
 import userProfile from "../../../assets/images/Ellipse 194.svg";
 import CustomeSearch from "../../../components/Search";
 import CustomIcon from "../../../shared/Icon";
+import { useSelector } from "react-redux";
 
 const Nav = () => {
+  const { Data } = useSelector((state) => state.auth);
+  const data = Data?.agency || Data?.traveler;
   return (
     <Grid
       //   stackable
@@ -22,16 +25,21 @@ const Nav = () => {
           mobile={10}
           style={{ display: "flex", alignItems: "center", gap: "10px" }}
         >
-          <Image src={userProfile} circular size="mini" />
-          <div>
-            <Header as="h5" style={{ margin: 0 }}>
-              Current Location
-            </Header>
-            <CustomIcon name="map marker alternate" title="Gandhinagar" />
-          </div>
+          <a href="/profile">
+            <div style={{ display: "flex", gap: "10px" }}>
+              <Image src={userProfile} circular size="mini" />
+              <div>
+                <Header as="h5" style={{ margin: 0 }}>
+                  Current Location
+                </Header>
+                <CustomIcon name="map marker alternate" title={data?.city} />
+              </div>
+            </div>
+          </a>
         </Grid.Column>
 
         {/* Right Section - Search */}
+        
         <Grid.Column
           computer={7}
           tablet={7}

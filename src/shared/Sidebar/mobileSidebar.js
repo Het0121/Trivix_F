@@ -1,6 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
 import "semantic-ui-css/semantic.min.css";
-import menuItems from "./ListData";
+import menuItems from "./MobileList";
 import {
   BottomNavContainer,
   MenuItem,
@@ -8,37 +8,47 @@ import {
 } from "../../assets/Css/Sidebar/styled";
 import CustomIcon from "../Icon";
 import { theme } from "../../Theme/theme";
-import { Header } from "semantic-ui-react";
-import Cookies from "js-cookie";
+// import { Tooltip } from "semantic-ui-react";
 
-// Styled Bottom Navigation Bar
+const BottomNav = ({ handleLogOut }) => {
+  const [activeItem, setActiveItem] = useState(window.location.pathname);
 
-const BottomNav = () => {
-  const handleLogOut = () => {
-    Cookies.remove("user");
+  const handleItemClick = (url) => {
+    setActiveItem(url);
   };
+
   return (
     <BottomNavContainer>
       {menuItems.map((item, index) => (
-        <a href={item.url}>
-          <NavItem key={index}>
+        <MenuItem
+          key={index}
+          href={item.url}
+          onClick={() => handleItemClick(item.url)}
+          active={activeItem === item.url}
+        >
+          <NavItem>
+            {/* <Tooltip content={item.name} position="top center"> */}
             <CustomIcon
               name={item.icon}
               className={"menu-icon"}
               style={{
                 fontSize: "20px",
-                color: theme.colors.orange,
+                color:
+                  activeItem === item.url
+                    ? theme.colors.active
+                    : theme.colors.orange,
                 display: "flex",
                 justifyContent: "center",
                 alignItems: "center",
               }}
             />
-            {/* {item.name} */}
+            {/* </Tooltip> */}
           </NavItem>
-        </a>
+        </MenuItem>
       ))}
       <MenuItem as="a" onClick={handleLogOut} href="/auth/login">
         <NavItem>
+          {/* <Tooltip content="Log Out" position="top center"> */}
           <CustomIcon
             name={"log out"}
             style={{
@@ -49,6 +59,7 @@ const BottomNav = () => {
               alignItems: "center",
             }}
           />
+          {/* </Tooltip> */}
         </NavItem>
       </MenuItem>
     </BottomNavContainer>

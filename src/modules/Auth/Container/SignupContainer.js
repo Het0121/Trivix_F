@@ -1,10 +1,9 @@
 import React from "react";
 import { TabPane } from "semantic-ui-react";
 import TabExampleSecondaryPointing from "../../Profile/Components/Tabs";
-import LoginFormAgency from "../Components/LoginForm";
-import LoginFormTraveler from "../Components/TravelerLoginForm";
-
-const LoginContainer = () => {
+import SignupAgency from "../Components/Signup";
+import SignupTraveler from "../Components/TravelerSignupForm";
+const SignupContainer = () => {
   const panes = [
     {
       menuItem: "Traveler",
@@ -18,7 +17,7 @@ const LoginContainer = () => {
               boxShadow: "none",
             }}
           >
-            <LoginFormTraveler />
+            <SignupTraveler />
           </TabPane>
         </>
       ),
@@ -34,7 +33,7 @@ const LoginContainer = () => {
             boxShadow: "none",
           }}
         >
-          <LoginFormAgency />
+          <SignupAgency />
         </TabPane>
       ),
     },
@@ -46,4 +45,4 @@ const LoginContainer = () => {
   );
 };
 
-export default LoginContainer;
+export default SignupContainer;

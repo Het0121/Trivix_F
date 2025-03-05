@@ -1,5 +1,5 @@
 import React from "react";
-import { Grid, GridColumn, Container } from "semantic-ui-react";
+import { Grid, GridColumn } from "semantic-ui-react";
 import ImageCarousel from "../../../components/PostsBlog";
 import ChatBox from "../../../components/Chat";
 import img from "../../../assets/images/pexels-souvenirpixels-414612.jpg";
@@ -41,7 +41,6 @@ const HomeContainer = () => {
   const isLaptop = useMediaQuery("(max-width: 1440px)");
 
   return (
-    // <Container fluid style={{ minHeight: "100vh" }}>
     <>
       <Grid columns="equal" style={{ height: "100%" }}>
         <Grid.Row style={{ display: "flex", justifyContent: "center " }}>
@@ -53,9 +52,12 @@ const HomeContainer = () => {
             style={{
               marginBottom: "50px",
               display: "flex",
+              flexDirection: "column",
               justifyContent: "center ",
+              gap: "10px",
             }}
           >
+            <Nav />
             <ImageCarousel
               images={images}
               posts={posts}
@@ -83,7 +85,6 @@ const HomeContainer = () => {
         </Grid.Row>
       </Grid>
     </>
-    // </Container>
   );
 };
 

@@ -1,39 +1,43 @@
+import Cookies from "js-cookie";
 import React, { useEffect, useState } from "react";
-import Form from "../../../shared/Form/Form";
-import Fields from "../../../shared/Form/Fields/Fields";
-import * as yup from "yup";
-import Header from "../../../shared/Header";
-import { theme } from "../../../Theme/theme";
-import { Button } from "../../../shared";
-import { loginRequest } from "../Actions/Actions";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router";
-import Cookies from "js-cookie";
-const LoginFormAgency = () => {
+import * as yup from "yup";
+import { Button } from "../../../shared";
+import Fields from "../../../shared/Form/Fields/Fields";
+import Form from "../../../shared/Form/Form";
+import Header from "../../../shared/Header";
+import { theme } from "../../../Theme/theme";
+import { SignupRequest, TravelerSignupRequest } from "../Actions/Actions";
+
+const SignupTraveler = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const { Data } = useSelector((state) => state.auth);
-
+  console.log(process.env.BASEAPI);
   const schema = yup.object().shape({
     password: yup
       .string()
       .min(6, "Password must be at least 6 characters")
       .required("Password is required"),
-    userName: yup
-      .string()
-      .min(6, "Email must be at least 12 characters")
-      .required("Email is required"),
+    userName: yup.string().required("Email is required"),
+    fullName: yup.string().required("FullName is required"),
+    email: yup.string().required("Email is required"),
+    phoneNo: yup.string().required("PhoneNo is required"),
   });
 
   const onSubmit = async (data) => {
     setLoading(true);
     const finalData = {
       userName: data.userName,
+      fullName: data.fullName,
+      email: data.email,
+      phoneNo: data.phoneNo,
       password: data.password,
     };
     try {
-      dispatch(loginRequest(finalData));
+      dispatch(TravelerSignupRequest(finalData));
     } finally {
       setLoading(false);
     }
@@ -41,9 +45,10 @@ const LoginFormAgency = () => {
   useEffect(() => {
     const token = Cookies.get("user");
     if (token) {
-      navigate("/");
+      navigate("/auth/login");
     }
   }, [Data, navigate]);
+
   return (
     <div
       style={{
@@ -57,7 +62,7 @@ const LoginFormAgency = () => {
     >
       <Header
         as={"h1"}
-        title={"Sign in as Agency"}
+        title={"Sign up as Traveler"}
         style={{
           padding: "0px",
           color: theme.colors.black,
@@ -86,7 +91,21 @@ const LoginFormAgency = () => {
           <Fields.Input
             name="userName"
             type="text"
-            placeholder="Enter your email"
+            placeholder="Enter your UserName"
+            className="login-input"
+            fluid
+          />
+          <Fields.Input
+            name="fullName"
+            type="text"
+            placeholder="Enter your FullName"
+            className="login-input"
+            fluid
+          />
+          <Fields.Input
+            name="email"
+            type="email"
+            placeholder="Enter your Email"
             className="login-input"
             fluid
           />
@@ -94,8 +113,16 @@ const LoginFormAgency = () => {
           <Fields.Input
             name="password"
             type="password"
-            placeholder="Enter your password"
+            placeholder="Enter your Password"
             icon="eye outlined"
+            className="login-input"
+            fluid
+          />
+
+          <Fields.Input
+            name="phoneNo"
+            type="number"
+            placeholder="Enter your PhoneNo"
             className="login-input"
             fluid
           />
@@ -114,12 +141,6 @@ const LoginFormAgency = () => {
           </div>
         </Form>
       </div>
-      <p style={{ marginTop: "15px", fontSize: "12px" }}>
-        Don't have an account?{" "}
-        <a href="/auth/signup" style={{ color: "#ff6b6b", fontWeight: "bold" }}>
-          Sign up
-        </a>
-      </p>
       <p style={{ fontSize: "12px" }}>
         Become Our Agency{" "}
         <a href="#" style={{ color: "#ff6b6b", fontWeight: "bold" }}>
@@ -147,4 +168,4 @@ const LoginFormAgency = () => {
   );
 };
 
-export default LoginFormAgency;
+export default SignupTraveler;

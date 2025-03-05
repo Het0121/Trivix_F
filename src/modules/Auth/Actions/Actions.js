@@ -7,6 +7,12 @@ import {
   SIGNUP_FAILURE,
   LOGOUT,
   RESTORE_SESSION,
+  TRAVELER_LOGIN_REQUEST,
+  TRAVELER_LOGIN_SUCCESS,
+  TRAVELER_LOGIN_FAILURE,
+  TRAVELER_SIGNUP_FAILURE,
+  TRAVELER_SIGNUP_REQUEST,
+  TRAVELER_SIGNUP_SUCCESS,
 } from "../Types/Types";
 
 export const loginRequest = (finaldata) => ({
@@ -35,7 +41,37 @@ export const SignupSuccess = (payload) => ({
 });
 
 export const SignupFailure = (error) => ({
+  type: TRAVELER_SIGNUP_FAILURE,
+  error,
+});
+
+export const TravelerSignupRequest = (finaldata) => ({
+  type: TRAVELER_SIGNUP_REQUEST,
+  payload: finaldata,
+});
+
+export const TravelerSignupSuccess = (payload) => ({
+  type: TRAVELER_SIGNUP_SUCCESS,
+  payload: payload,
+});
+
+export const TravelerSignupFailure = (error) => ({
   type: SIGNUP_FAILURE,
+  error,
+});
+
+export const TravelerloginRequest = (finaldata) => ({
+  type: TRAVELER_LOGIN_REQUEST,
+  payload: finaldata,
+});
+
+export const TravelerloginSuccess = (payload) => ({
+  type: TRAVELER_LOGIN_SUCCESS,
+  payload: payload,
+});
+
+export const TravelerloginFailure = (error) => ({
+  type: TRAVELER_LOGIN_FAILURE,
   error,
 });
 

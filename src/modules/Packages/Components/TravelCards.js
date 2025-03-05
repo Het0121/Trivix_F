@@ -1,8 +1,9 @@
 import React from "react";
 import CustomSlider from "../../../components/Slider";
 import TravelCard from "../../../components/Cards/TravelCard";
+import { useNavigate, useParams } from "react-router-dom";
 
-const TravelCards = () => {
+const TravelCards = ({ handleNavigateDetailpage }) => {
   const settings = {
     dots: true,
     infinite: true,
@@ -134,7 +135,11 @@ const TravelCards = () => {
     <div style={{ padding: "20px 0px" }}>
       <CustomSlider settings={settings}>
         {travelData.map((item, index) => (
-          <div key={index} style={{ padding: "20px 5px" }}>
+          <div
+            key={index}
+            style={{ padding: "20px 5px" }}
+            onClick={() => handleNavigateDetailpage(item.id)}
+          >
             <TravelCard item={item} />
           </div>
         ))}

@@ -1,8 +1,8 @@
 import React from "react";
 import { Card, Image, List, ListItem } from "semantic-ui-react";
 import { theme } from "../../Theme/theme";
-import CustomIcon from "../../shared/Icon";
 import Cardimg from "../../assets/images/card3.png";
+import CustomIcon from "../../shared/Icon";
 
 const TravelCard = ({ item, style = {} }) => {
   return (

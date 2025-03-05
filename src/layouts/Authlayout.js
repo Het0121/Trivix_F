@@ -1,7 +1,6 @@
 import React from "react";
-import LoginContainer from "../modules/Auth/Container/LoginContainer";
-const Authlayout = () => {
-  return <LoginContainer />;
+const Authlayout = ({ children }) => {
+  return <div>{children}</div>;
 };
 
 export default Authlayout;

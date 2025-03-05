@@ -3,7 +3,7 @@ import CustomSlider from "../../../components/Slider";
 import VerticleCard from "../../../components/Cards/verticleCard";
 import img from "../../../assets/images/pexels-souvenirpixels-414612.jpg";
 
-const TouristCard = () => {
+const TouristCard = ({ handleNavigateDetailpage }) => {
   const settings = {
     dots: true,
     infinite: true,
@@ -37,22 +37,26 @@ const TouristCard = () => {
     ],
   };
   const data = [
-    { title: "Elliot", meta: "Gandhinagar", src: img },
-    { title: "RedFish Lake", meta: "Idaho", src: img },
-    { title: "Blue Lake", meta: "California", src: img },
-    { title: "RedFish Lake", meta: "Idaho", src: img },
-    { title: "Blue Lake", meta: "California", src: img },
-    { title: "RedFish Lake", meta: "Idaho", src: img },
-    { title: "Blue Lake", meta: "California", src: img },
-    { title: "RedFish Lake", meta: "Idaho", src: img },
-    { title: "Blue Lake", meta: "California", src: img },
+    { title: "Elliot", meta: "Gandhinagar", src: img, id: 1 },
+    { title: "RedFish Lake", meta: "Idaho", src: img, id: 2 },
+    { title: "Blue Lake", meta: "California", src: img, id: 3 },
+    { title: "RedFish Lake", meta: "Idaho", src: img, id: 4 },
+    { title: "Blue Lake", meta: "California", src: img, id: 5 },
+    { title: "RedFish Lake", meta: "Idaho", src: img, id: 6 },
+    { title: "Blue Lake", meta: "California", src: img, id: 7 },
+    { title: "RedFish Lake", meta: "Idaho", src: img, id: 8 },
+    { title: "Blue Lake", meta: "California", src: img, id: 9 },
   ];
 
   return (
     <div style={{ padding: "20px 0px" }}>
       <CustomSlider settings={settings}>
         {data.map((item, index) => (
-          <div key={index} style={{ padding: "20px 5px" }}>
+          <div
+            key={index}
+            style={{ padding: "20px 5px" }}
+            onClick={() => handleNavigateDetailpage(item.id)}
+          >
             <VerticleCard item={item} />
           </div>
         ))}

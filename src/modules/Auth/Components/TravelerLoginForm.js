@@ -5,11 +5,11 @@ import * as yup from "yup";
 import Header from "../../../shared/Header";
 import { theme } from "../../../Theme/theme";
 import { Button } from "../../../shared";
-import { loginRequest } from "../Actions/Actions";
+import { loginRequest, TravelerloginRequest } from "../Actions/Actions";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router";
 import Cookies from "js-cookie";
-const LoginFormAgency = () => {
+const LoginFormTraveler = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
@@ -33,7 +33,7 @@ const LoginFormAgency = () => {
       password: data.password,
     };
     try {
-      dispatch(loginRequest(finalData));
+      dispatch(TravelerloginRequest(finalData));
     } finally {
       setLoading(false);
     }
@@ -57,7 +57,7 @@ const LoginFormAgency = () => {
     >
       <Header
         as={"h1"}
-        title={"Sign in as Agency"}
+        title={"Sign in as Traveler"}
         style={{
           padding: "0px",
           color: theme.colors.black,
@@ -147,4 +147,4 @@ const LoginFormAgency = () => {
   );
 };
 
-export default LoginFormAgency;
+export default LoginFormTraveler;

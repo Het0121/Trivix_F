@@ -14,11 +14,11 @@ function LayoutWrapper() {
       <AppRouter />
     </AuthLayout>
   ) : (
-    // <ProtectedRoute publicRoutes={publicRoutes}>
+    <ProtectedRoute publicRoutes={publicRoutes}>
       <AppLayouts>
         <AppRouter />
       </AppLayouts>
-    // </ProtectedRoute>
+    </ProtectedRoute>
   );
 }
 function App() {

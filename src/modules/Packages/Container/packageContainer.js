@@ -1,26 +1,21 @@
-import { useMediaQuery } from "@react-hook/media-query";
-import React, { useEffect } from "react";
+import React from "react";
 import { Grid, GridColumn, Header } from "semantic-ui-react";
-import ChatBox from "../../../components/Chat";
-import NotificationBar from "../../../components/Notification";
-import PackageCard from "../Components/packageCard";
-import TouristCard from "../Components/TouristCard";
-import axios from "axios";
 import { theme } from "../../../Theme/theme";
 import Nav from "../Components/Nav";
+import PackageCard from "../Components/packageCard";
+import TouristCard from "../Components/TouristCard";
 import TravelCards from "../Components/TravelCards";
+import { useNavigate, useParams } from "react-router-dom";
+import DetailpackageContainer from "./DetailpackageContainer";
 const PackageContainer = () => {
-  // const isMobile = useMediaQuery("(max-width: 1024px)");
+  const { id } = useParams();
+  const navigate = useNavigate();
 
-  useEffect(() => {
-    const res = axios.post("http://localhost:8000/api/v1/agency/login", {
-      userName: "skyline_travels",
-      password: "Het@123",
-    });
-    console.log(res.data, "res");
-    return res;
-  });
+  const handleNavigateDetailpage = (id) => {
+    navigate(`/packages/${id}`);
+  };
 
+  console.log("Current ID from useParams():", id);
   return (
     <Grid columns="equal" style={{ height: "100%" }}>
       <Grid.Row style={{ display: "flex", justifyContent: "center " }}>
@@ -37,31 +32,44 @@ const PackageContainer = () => {
           }}
         >
           <Nav />
-          <PackageCard />
-          <TouristCard />
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center",
-              marginTop: "20px",
-            }}
-          >
-            <Header as={"h3"} style={{ margin: "0" }}>
-              Group Trips
-            </Header>
-            <Header
-              as={"h4"}
-              style={{
-                margin: "0",
-                fontWeight: "300",
-                color: theme.colors.gray,
-              }}
-            >
-              See All
-            </Header>
-          </div>
-          <TravelCards />
+          {!id ? (
+            <>
+              <PackageCard
+                handleNavigateDetailpage={handleNavigateDetailpage}
+              />
+              <TouristCard
+                handleNavigateDetailpage={handleNavigateDetailpage}
+              />
+
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                  marginTop: "20px",
+                }}
+              >
+                <Header as={"h3"} style={{ margin: "0" }}>
+                  Group Trips
+                </Header>
+                <Header
+                  as={"h4"}
+                  style={{
+                    margin: "0",
+                    fontWeight: "300",
+                    color: theme.colors.gray,
+                  }}
+                >
+                  See All
+                </Header>
+              </div>
+              <TravelCards
+                handleNavigateDetailpage={handleNavigateDetailpage}
+              />
+            </>
+          ) : (
+            <DetailpackageContainer />
+          )}
         </GridColumn>
       </Grid.Row>
     </Grid>

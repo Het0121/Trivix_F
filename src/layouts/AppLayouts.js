@@ -22,7 +22,13 @@ const AppLayouts = ({ children }) => {
       stackable
       style={{ padding: "0 !important", margin: "0", width: "100%" }}
     >
-      <Grid.Row style={{ display: "flex", justifyContent: "center" }}>
+      <Grid.Row
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          background: "radial - gradient(black, transparent)",
+        }}
+      >
         {/* Sidebar: Hidden on mobile screens */}
         <GridColumn
           width={4}

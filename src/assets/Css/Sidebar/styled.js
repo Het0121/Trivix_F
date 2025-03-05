@@ -33,8 +33,6 @@ export const MenuItem = styled(Menu.Item)`
   align-items: center !important;
   gap: 15px !important;
   justify-content: center;
-  padding: 12px !important;
-  margin-left: -30px;
   color: ${theme.colors.orange};
   transition: all 0.3s ease-in-out;
 
@@ -88,6 +86,8 @@ export const BottomNavContainer = styled.div`
   align-items: center;
   box-shadow: 0px -2px 5px rgba(0, 0, 0, 0.1);
   z-index: 1000;
+  border-top-left-radius: 25px;
+  border-top-right-radius: 25px;
 `;
 
 export const NavItem = styled.div`
@@ -99,10 +99,77 @@ export const NavItem = styled.div`
   font-size: 14px;
   fontweight: bold;
   padding: 10px;
-  &:hover {
+  // margin-left: 25px;
+  border-radius &:hover {
     background-color: ${theme.colors.orange};
     .menu-icon {
       color: ${theme.colors.primary} !important;
+    }
+  }
+`;
+export const SidebarWrapper = styled.div`
+  width: 250px;
+  height: 100vh;
+  background-color: ${theme.colors.white};
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px 0;
+  position: fixed;
+  left: 0;
+  top: 0;
+  box-shadow: 1px 0 3px rgba(0, 0, 0, 0.15);
+`;
+export const SidebarHeader = styled.h2`
+  color: ${theme.colors.orange};
+  font-size: 22px;
+  font-weight: 700;
+  text-transform: uppercase;
+  margin-bottom: 20px;
+`;
+export const SidebarMenu = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 10px;
+`;
+export const SidebarItem = styled.a`
+  width: 90%;
+  display: flex;
+  align-items: center;
+  color: ${theme.colors.black};
+  padding: 10px;
+  gap: 10px;
+  border-radius: 6px;
+  font-size: 16px;
+  font-weight: 800 !important;
+  text-decoration: none;
+  transition: all 0.2s ease-in-out;
+  .menu-icon {
+    color: ${theme.colors.orange}; /* Icon is now orange */
+    font-size: 20px;
+  }
+  &:hover {
+    background-color: ${theme.colors.orange};
+    color: ${theme.colors.white};
+    .menu-icon {
+      color: ${theme.colors.white}; /* Icon turns white on hover */
+    }
+  }
+`;
+export const LogoutButton = styled(SidebarItem)`
+  margin-top: auto;
+  font-weight: bold;
+  color: ${theme.colors.blue};
+  .menu-icon {
+    color: ${theme.colors.blue};
+  }
+  &:hover {
+    background-color: ${theme.colors.blue};
+    color: ${theme.colors.white};
+    .menu-icon {
+      color: ${theme.colors.white};
     }
   }
 `;

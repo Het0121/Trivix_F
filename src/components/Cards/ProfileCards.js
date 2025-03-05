@@ -4,10 +4,18 @@ import userProfile from "../../assets/images/Ellipse 194.svg";
 import backgroundImg from "../../assets/images/Placeholder.png";
 import { Button } from "../../shared";
 import CustomIcon from "../../shared/Icon";
+import { useSelector } from "react-redux";
 const ProfileCard = () => {
+  const { Data } = useSelector((state) => state.auth);
+  // console.log(Data.agency);
+  const data = Data?.agency || Data?.traveler;
+
   return (
-    <div style={{ padding: 10, borderRadius: "15px" }}>
-      <Card centered style={{ borderRadius: "15px", overflow: "hidden" }}>
+    <div style={{ padding: 5, borderRadius: "15px" }}>
+      <Card
+        centered
+        style={{ borderRadius: "15px", overflow: "hidden", top: "70px" }}
+      >
         <Image
           src={backgroundImg}
           style={{ objectFit: "cover", height: "90px" }}
@@ -30,7 +38,7 @@ const ProfileCard = () => {
           <Card.Meta style={{ display: "flex", marginLeft: "50px" }}>
             <CustomIcon
               name="map marker alternate"
-              title={" Gandhinagar"}
+              title={data?.city || ""}
               style={{ display: "flex", gap: "10px" }}
             />
           </Card.Meta>

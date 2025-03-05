@@ -4,6 +4,8 @@ import {
   LOGOUT,
   RESTORE_SESSION,
   SIGNUP_REQUEST,
+  TRAVELER_LOGIN_REQUEST,
+  TRAVELER_SIGNUP_REQUEST,
 } from "../Types/Types";
 import {
   loginSuccess,
@@ -11,7 +13,7 @@ import {
   SignupSuccess,
   SignupFailure,
 } from "../Actions/Actions";
-import { login, Signup } from "../Api/index";
+import { login, Signup, travelerlogin, TravelerSignup } from "../Api/index";
 import Cookies from "js-cookie";
 
 function* handleLogin(action) {
@@ -20,9 +22,17 @@ function* handleLogin(action) {
     yield put(loginSuccess(response.data));
     localStorage.setItem("user", response.data.accessToken);
     Cookies.set("user", response.data.accessToken);
-    if (response.data.accessToken) {
-      window.location.href = "/";
-    }
+  } catch (error) {
+    console.log("error".error.message);
+    yield put(loginFailure(error.message));
+  }
+}
+function* handleTravelerLogin(action) {
+  try {
+    const response = yield call(travelerlogin, action.payload);
+    yield put(loginSuccess(response.data));
+    localStorage.setItem("user", response.data.accessToken);
+    Cookies.set("user", response.data.accessToken);
   } catch (error) {
     console.log("error".error.message);
     yield put(loginFailure(error.message));
@@ -31,13 +41,20 @@ function* handleLogin(action) {
 function* handleSignup(action) {
   try {
     const response = yield call(Signup, action.payload);
-    yield put(SignupSuccess(response.data.user));
-    localStorage.setItem("user", response.data.user.token);
-    localStorage.setItem("Email", response.data.user.userEmail);
-    Cookies.set("user", response.data.user.token);
-    if (response.data.user.token) {
-      window.location.href = "/";
-    }
+    yield put(SignupSuccess(response.data));
+    localStorage.setItem("user", response.data.accessToken);
+    Cookies.set("user", response.data.accessToken);
+  } catch (error) {
+    console.log("error".error.message);
+    yield put(SignupFailure(error.message));
+  }
+}
+function* handleTravelerSignup(action) {
+  try {
+    const response = yield call(TravelerSignup, action.payload);
+    yield put(SignupSuccess(response.data));
+    localStorage.setItem("user", response.data.accessToken);
+    Cookies.set("user", response.data.accessToken);
   } catch (error) {
     console.log("error".error.message);
     yield put(SignupFailure(error.message));
@@ -63,8 +80,14 @@ function* logout() {
 function* watchLogin() {
   yield takeLatest(LOGIN_REQUEST, handleLogin);
 }
+function* watchTravelerLogin() {
+  yield takeLatest(TRAVELER_LOGIN_REQUEST, handleTravelerLogin);
+}
 function* watchSignup() {
   yield takeLatest(SIGNUP_REQUEST, handleSignup);
+}
+function* watchTravelerSignup() {
+  yield takeLatest(TRAVELER_SIGNUP_REQUEST, handleTravelerSignup);
 }
 function* watchLogout() {
   yield takeLatest(LOGOUT, logout);
@@ -80,5 +103,7 @@ export default function* authSagas() {
     fork(watchSignup),
     fork(watchRestoreSession),
     fork(watchLogout),
+    fork(watchTravelerLogin),
+    fork(watchTravelerSignup),
   ]);
 }

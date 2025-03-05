@@ -1,74 +1,71 @@
 import React from "react";
 import { List, Image } from "semantic-ui-react";
-import CustomButton from "../../shared/Button";
-
-const notifications = [
-  {
-    id: 1,
-    name: "Het",
-    action: "Liked your post.",
-    time: "10:04 AM",
-    avatar: "https://randomuser.me/api/portraits/men/10.jpg",
-    follow: false,
-  },
-  {
-    id: 2,
-    name: "Siddhi",
-    action: "Started following you.",
-    time: "10:00 AM",
-    avatar: "https://randomuser.me/api/portraits/women/20.jpg",
-    follow: true,
-  },
-  {
-    id: 3,
-    name: "Hannah Flores",
-    action: "Commented on your post: Good luck",
-    time: "9:56 AM",
-    avatar: "https://randomuser.me/api/portraits/women/20.jpg",
-    follow: true,
-  },
-  {
-    id: 4,
-    name: "Param",
-    action: "Liked your post.",
-    time: "9:55 AM",
-    avatar: "https://randomuser.me/api/portraits/women/30.jpg",
-    follow: false,
-  },
-  {
-    id: 5,
-    name: "Jeel",
-    action: "Liked your post.",
-    time: "9:55 AM",
-    avatar: "https://randomuser.me/api/portraits/women/20.jpg",
-    follow: false,
-  },
-  {
-    id: 6,
-    name: "Raman",
-    action: "Started following you.",
-    time: "8:02 PM",
-    avatar: "https://randomuser.me/api/portraits/men/40.jpg",
-    follow: true,
-  },
-];
+import { theme } from "../../Theme/theme";
+import { Button } from "../../shared";
 
 const NotificationBar = () => {
+  const notifications = [
+    {
+      id: 1,
+      name: "Het",
+      action: "Liked your post.",
+      time: "10:04 AM",
+      avatar: "https://randomuser.me/api/portraits/men/10.jpg",
+      follow: false,
+    },
+    {
+      id: 2,
+      name: "Siddhi",
+      action: "Started following you.",
+      time: "10:00 AM",
+      avatar: "https://randomuser.me/api/portraits/women/20.jpg",
+      follow: true,
+    },
+    {
+      id: 3,
+      name: "Hannah Flores",
+      action: "Commented on your post: Good luck",
+      time: "9:56 AM",
+      avatar: "https://randomuser.me/api/portraits/women/20.jpg",
+      follow: true,
+    },
+    {
+      id: 4,
+      name: "Param",
+      action: "Liked your post.",
+      time: "9:55 AM",
+      avatar: "https://randomuser.me/api/portraits/women/30.jpg",
+      follow: false,
+    },
+    {
+      id: 5,
+      name: "Jeel",
+      action: "Liked your post.",
+      time: "9:55 AM",
+      avatar: "https://randomuser.me/api/portraits/women/20.jpg",
+      follow: false,
+    },
+    {
+      id: 6,
+      name: "Raman",
+      action: "Started following you.",
+      time: "8:02 PM",
+      avatar: "https://randomuser.me/api/portraits/men/40.jpg",
+      follow: true,
+    },
+  ];
   return (
     <List
-      divided
       style={{
         width: "100%",
-        maxWidth: "100vW",
+        maxWidth: "100%",
         margin: "auto",
         borderRadius: "7px",
         boxShadow: "none",
-        border: "1px solid #ddd",
-        // padding: "10px",
-        // height: "100%",
+        // border: "1px solid #ddd",
       }}
     >
-      {notifications.map((notification) => (
+      {notifications?.map((notification) => (
         <List.Item
           key={notification.id}
           style={{
@@ -78,7 +75,15 @@ const NotificationBar = () => {
             flexWrap: "wrap", // Makes sure content wraps on small screens
           }}
         >
-          <Image avatar src={notification.avatar} />
+          <Image
+            avatar
+            src={notification.avatar}
+            style={{
+              border: `1px solid ${theme.colors.orange}`,
+              width: "40px",
+              height: "40px",
+            }}
+          />
           <List.Content
             style={{
               display: "flex",
@@ -108,13 +113,17 @@ const NotificationBar = () => {
           </List.Content>
           <div style={{ minWidth: "80px", textAlign: "right" }}>
             {notification.follow && (
-              <CustomButton
+              <Button
                 primary
                 size="tiny"
-                style={{ fontSize: "0.8rem", padding: "5px 10px" }}
+                style={{
+                  fontSize: "0.8rem",
+                  padding: "10px 20px",
+                  background: theme.colors.blue,
+                }}
               >
                 Follow
-              </CustomButton>
+              </Button>
             )}
           </div>
         </List.Item>

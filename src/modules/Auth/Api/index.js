@@ -1,10 +1,19 @@
-import axios from "axios";
+import { apiRequest } from "../../Api";
 
 const Signup = async (data) => {
   try {
-    const result = await axios.post(
-      "http://localhost:8000/api/v1/auth/signup",
-      data,
+    const result = await apiRequest(`agency/register`, "POST", { data }, null);
+    return result;
+  } catch (error) {
+    console.log("error", error.message);
+  }
+};
+const TravelerSignup = async (data) => {
+  try {
+    const result = await apiRequest(
+      `traveler/register`,
+      "POST",
+      { data },
       null
     );
     return result;
@@ -14,17 +23,21 @@ const Signup = async (data) => {
 };
 const login = async (data) => {
   console.log(data, "logindata");
-
   try {
-    const result = await axios.post(
-      "http://localhost:8000/api/v1/agency/login",
-      data,
-      null
-    );
-    return result.data;
+    const result = await apiRequest("agency/login", "POST", { data }, null);
+    return result;
+  } catch (error) {
+    console.log("error", error.message);
+  }
+};
+const travelerlogin = async (data) => {
+  console.log(data, "logindata");
+  try {
+    const result = await apiRequest("traveler/login", "POST", { data }, null);
+    return result;
   } catch (error) {
     console.log("error", error.message);
   }
 };
 
-export { Signup, login };
+export { Signup, login, travelerlogin, TravelerSignup };

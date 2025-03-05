@@ -5,6 +5,10 @@ import {
   RESTORE_SESSION,
   SIGNUP_FAILURE,
   SIGNUP_SUCCESS,
+  TRAVELER_LOGIN_FAILURE,
+  TRAVELER_LOGIN_SUCCESS,
+  TRAVELER_SIGNUP_FAILURE,
+  TRAVELER_SIGNUP_SUCCESS,
 } from "../Types/Types";
 
 const initialState = {
@@ -17,6 +21,8 @@ const authReducer = (state = initialState, action) => {
   switch (action.type) {
     case SIGNUP_SUCCESS:
     case LOGIN_SUCCESS:
+    case TRAVELER_LOGIN_SUCCESS:
+    case TRAVELER_SIGNUP_SUCCESS:
       return {
         ...state,
         isAuthenticated: true,
@@ -25,6 +31,8 @@ const authReducer = (state = initialState, action) => {
       };
     case SIGNUP_FAILURE:
     case LOGIN_FAILURE:
+    case TRAVELER_LOGIN_FAILURE:
+    case TRAVELER_SIGNUP_FAILURE:
       return {
         ...state,
         isAuthenticated: false,
