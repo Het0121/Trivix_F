@@ -27,7 +27,7 @@ const login = async (data) => {
     const result = await apiRequest("agency/login", "POST", { data }, null);
     return result;
   } catch (error) {
-    console.log("error", error.message);
+    console.log("error", error);
   }
 };
 const travelerlogin = async (data) => {
@@ -36,7 +36,7 @@ const travelerlogin = async (data) => {
     const result = await apiRequest("traveler/login", "POST", { data }, null);
     return result;
   } catch (error) {
-    console.log("error", error.message);
+    console.log("error", error);
   }
 };
 

@@ -42,8 +42,8 @@ const ChatBody = ({
           style={{
             position: "sticky",
             top: 0,
-            // backgroundColor: theme.colors.white,
-            zIndex: 1000, // Ensures the header stays above other content
+            backgroundColor: theme.colors.lightgray,
+            zIndex: 1000,
             padding: "5px 0px",
             width: "100%",
             display: "flex",
@@ -97,7 +97,7 @@ const ChatBody = ({
             <div
               style={{
                 background:
-                  msg.type === "sent" ? theme.colors.orange : theme.colors.gray,
+                  msg.type === "sent" ? theme.colors.blue : theme.colors.gray,
                 color: msg.type === "sent" ? "#fff" : "#000",
                 padding: "10px",
                 borderRadius: "10px",

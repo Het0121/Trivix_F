@@ -13,6 +13,8 @@ const CustomButton = ({
   visibleText,
   hiddenText,
   type,
+  Loading,
+  Disabled,
   ...props
 }) => {
   return (
@@ -25,6 +27,8 @@ const CustomButton = ({
       animated={animated}
       {...props}
       type={type}
+      Loading={Loading}
+      Disabled={Loading}
     >
       {children}
     </Button>

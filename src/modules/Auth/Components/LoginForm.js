@@ -5,15 +5,22 @@ import * as yup from "yup";
 import Header from "../../../shared/Header";
 import { theme } from "../../../Theme/theme";
 import { Button } from "../../../shared";
-import { loginRequest } from "../Actions/Actions";
+import {
+  loginFailure,
+  loginRequest,
+  TravelerloginFailure,
+  TravelerloginRequest,
+} from "../Actions/Actions";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router";
 import Cookies from "js-cookie";
-const LoginFormAgency = () => {
+import { Radio } from "semantic-ui-react";
+
+const LoginForm = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [loading, setLoading] = useState(false);
-  const { Data } = useSelector((state) => state.auth);
+  const { Data, loading } = useSelector((state) => state.auth);
+  const [selected, setSelected] = useState("traveler");
 
   const schema = yup.object().shape({
     password: yup
@@ -27,23 +34,32 @@ const LoginFormAgency = () => {
   });
 
   const onSubmit = async (data) => {
-    setLoading(true);
     const finalData = {
       userName: data.userName,
       password: data.password,
     };
     try {
-      dispatch(loginRequest(finalData));
-    } finally {
-      setLoading(false);
+      dispatch(
+        selected === "traveler"
+          ? TravelerloginRequest(finalData)
+          : loginRequest(finalData)
+      );
+    } catch (error) {
+      dispatch(
+        selected === "traveler"
+          ? TravelerloginFailure(error.message)
+          : loginFailure(error.message)
+      );
     }
   };
+
   useEffect(() => {
     const token = Cookies.get("user");
     if (token) {
       navigate("/");
     }
   }, [Data, navigate]);
+
   return (
     <div
       style={{
@@ -57,7 +73,9 @@ const LoginFormAgency = () => {
     >
       <Header
         as={"h1"}
-        title={"Sign in as Agency"}
+        title={`Sign in as ${
+          selected.charAt(0).toUpperCase() + selected.slice(1)
+        }`}
         style={{
           padding: "0px",
           color: theme.colors.black,
@@ -75,13 +93,26 @@ const LoginFormAgency = () => {
           marginTop: "5px",
         }}
       />
-      <div
-        style={{
-          width: "400px",
-          padding: "20px",
-          borderRadius: "8px",
-        }}
-      >
+
+      <div style={{ marginBottom: "20px" }}>
+        <Radio
+          label="Traveler"
+          name="loginType"
+          value="traveler"
+          checked={selected === "traveler"}
+          onChange={() => setSelected("traveler")}
+          style={{ marginRight: "15px" }}
+        />
+        <Radio
+          label="Agency"
+          name="loginType"
+          value="agency"
+          checked={selected === "agency"}
+          onChange={() => setSelected("agency")}
+        />
+      </div>
+
+      <div style={{ width: "400px", padding: "20px", borderRadius: "8px" }}>
         <Form onSubmit={onSubmit} validateSchemas={schema}>
           <Fields.Input
             name="userName"
@@ -90,7 +121,6 @@ const LoginFormAgency = () => {
             className="login-input"
             fluid
           />
-
           <Fields.Input
             name="password"
             type="password"
@@ -108,18 +138,21 @@ const LoginFormAgency = () => {
                 width: "83%",
                 marginTop: "8px",
               }}
+              disabled={loading}
             >
-              Submit
+              {loading ? "Logging in..." : "Submit"}
             </Button>
           </div>
         </Form>
       </div>
+
       <p style={{ marginTop: "15px", fontSize: "12px" }}>
         Don't have an account?{" "}
         <a href="/auth/signup" style={{ color: "#ff6b6b", fontWeight: "bold" }}>
           Sign up
         </a>
       </p>
+
       <p style={{ fontSize: "12px" }}>
         Become Our Agency{" "}
         <a href="#" style={{ color: "#ff6b6b", fontWeight: "bold" }}>
@@ -127,7 +160,6 @@ const LoginFormAgency = () => {
         </a>
       </p>
 
-      {/* Social Login */}
       <p style={{ fontSize: "12px", marginTop: "10px" }}>OR LOG IN BY</p>
       <div style={{ display: "flex", gap: "10px" }}>
         <Button
@@ -147,4 +179,4 @@ const LoginFormAgency = () => {
   );
 };
 
-export default LoginFormAgency;
+export default LoginForm;

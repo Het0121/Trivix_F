@@ -1,48 +1,13 @@
 import React from "react";
-import { TabPane } from "semantic-ui-react";
-import TabExampleSecondaryPointing from "../../Profile/Components/Tabs";
-import LoginFormAgency from "../Components/LoginForm";
-import LoginFormTraveler from "../Components/TravelerLoginForm";
+import LoginForm from "../Components/LoginForm";
 
 const LoginContainer = () => {
-  const panes = [
-    {
-      menuItem: "Traveler",
-      render: () => (
-        <>
-          <TabPane
-            attached={false}
-            style={{
-              background: "transparent",
-              border: "none",
-              boxShadow: "none",
-            }}
-          >
-            <LoginFormTraveler />
-          </TabPane>
-        </>
-      ),
-    },
-    {
-      menuItem: "Agency",
-      render: () => (
-        <TabPane
-          attached={false}
-          style={{
-            background: "transparent",
-            border: "none",
-            boxShadow: "none",
-          }}
-        >
-          <LoginFormAgency />
-        </TabPane>
-      ),
-    },
-  ];
   return (
-    <>
-      <TabExampleSecondaryPointing panes={panes} />
-    </>
+    <div style={{ textAlign: "center", padding: "20px" }}>
+      <div>
+        <LoginForm />
+      </div>
+    </div>
   );
 };
 

@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_BASE_URL = "https://trivix-b.vercel.app/api/v1";
+const API_BASE_URL = "http://localhost:8000/api/v1";
 
 export const apiRequest = async (
   endpoint,
@@ -17,6 +17,8 @@ export const apiRequest = async (
         url.searchParams.append(key, params[key])
       );
     }
+
+    // const token = localStorage.getItem("user");
 
     const config = {
       method,

@@ -8,41 +8,65 @@ import Fields from "../../../shared/Form/Fields/Fields";
 import Form from "../../../shared/Form/Form";
 import Header from "../../../shared/Header";
 import { theme } from "../../../Theme/theme";
-import { SignupRequest } from "../Actions/Actions";
+import { SignupRequest, TravelerSignupRequest } from "../Actions/Actions";
+import { Radio } from "semantic-ui-react";
 
-const SignupAgency = () => {
+const SignupForm = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [loading, setLoading] = useState(false);
+  const [selected, setSelected] = useState("traveler");
 
-  const { Data } = useSelector((state) => state.auth);
+  const { Data, loading } = useSelector((state) => state.auth);
+
+  // Dynamic validation schema based on selected type
   const schema = yup.object().shape({
+    userName: yup.string().required("User Name is required"),
+    email: yup.string().email("Invalid email").required("Email is required"),
     password: yup
       .string()
       .min(6, "Password must be at least 6 characters")
       .required("Password is required"),
-    userName: yup.string().required("Email is required"),
-    agencyName: yup.string().required("AgencyName is required"),
-    email: yup.string().required("Email is required"),
-    agencyPhoneNo: yup.string().required("AgencyPhoneNo is required"),
+    ...(selected === "agency"
+      ? {
+          agencyName: yup.string().required("Agency Name is required"),
+          agencyPhoneNo: yup.string().required("Agency Phone No is required"),
+        }
+      : {
+          fullName: yup.string().required("TravelerFull Name is required"),
+          phoneNo: yup.string().required("Phone No is required"),
+        }),
   });
 
   const onSubmit = async (data) => {
-    setLoading(true);
-    const finalData = {
-      userName: data.userName,
-      agencyName: data.agencyName,
-      email: data.email,
-      agencyPhoneNo: data.agencyPhoneNo,
-      password: data.password,
-    };
+    const finalData =
+      selected === "traveler"
+        ? {
+            fullName: data.fullName,
+            phoneNo: data.phoneNo,
+            email: data.email,
+            userName: data.userName,
+            password: data.password,
+          }
+        : {
+            agencyName: data.agencyName,
+            agencyPhoneNo: data.agencyPhoneNo,
+            email: data.email,
+            userName: data.userName,
+            password: data.password,
+          };
+
     console.log(finalData);
     try {
-      dispatch(SignupRequest(finalData));
-    } finally {
-      setLoading(false);
+      dispatch(
+        selected === "traveler"
+          ? TravelerSignupRequest(finalData)
+          : SignupRequest(finalData)
+      );
+    } catch (error) {
+      console.log(error.message);
     }
   };
+
   useEffect(() => {
     const token = Cookies.get("user");
     if (token) {
@@ -62,8 +86,10 @@ const SignupAgency = () => {
       }}
     >
       <Header
-        as={"h1"}
-        title={"Sign up as Agency"}
+        as="h1"
+        title={`Sign up as ${
+          selected.charAt(0).toUpperCase() + selected.slice(1)
+        }`}
         style={{
           padding: "0px",
           color: theme.colors.black,
@@ -72,8 +98,8 @@ const SignupAgency = () => {
         }}
       />
       <Header
-        as={"h5"}
-        title={"Please Sign in to continue our app"}
+        as="h5"
+        title="Please Sign up to continue using our app"
         style={{
           padding: "0px",
           color: "gray",
@@ -81,6 +107,27 @@ const SignupAgency = () => {
           marginTop: "5px",
         }}
       />
+
+      {/* Radio Button Selection */}
+      <div style={{ marginBottom: "20px" }}>
+        <Radio
+          label="Traveler"
+          name="loginType"
+          value="traveler"
+          checked={selected === "traveler"}
+          onChange={() => setSelected("traveler")}
+          style={{ marginRight: "15px" }}
+        />
+        <Radio
+          label="Agency"
+          name="loginType"
+          value="agency"
+          checked={selected === "agency"}
+          onChange={() => setSelected("agency")}
+        />
+      </div>
+
+      {/* Form */}
       <div
         style={{
           width: "400px",
@@ -92,17 +139,45 @@ const SignupAgency = () => {
           <Fields.Input
             name="userName"
             type="text"
-            placeholder="Enter your UserName"
+            placeholder="Enter your User Name"
             className="login-input"
             fluid
           />
-          <Fields.Input
-            name="agencyName"
-            type="text"
-            placeholder="Enter your AgencyName"
-            className="login-input"
-            fluid
-          />
+          {selected === "agency" ? (
+            <>
+              <Fields.Input
+                name="agencyName"
+                type="text"
+                placeholder="Enter your Agency Name"
+                className="login-input"
+                fluid
+              />
+              <Fields.Input
+                name="agencyPhoneNo"
+                type="number"
+                placeholder="Enter your Agency Phone No"
+                className="login-input"
+                fluid
+              />
+            </>
+          ) : (
+            <>
+              <Fields.Input
+                name="fullName"
+                type="text"
+                placeholder="Enter your Full Name"
+                className="login-input"
+                fluid
+              />
+              <Fields.Input
+                name="phoneNo"
+                type="number"
+                placeholder="Enter your Phone No"
+                className="login-input"
+                fluid
+              />
+            </>
+          )}
           <Fields.Input
             name="email"
             type="email"
@@ -110,7 +185,6 @@ const SignupAgency = () => {
             className="login-input"
             fluid
           />
-
           <Fields.Input
             name="password"
             type="password"
@@ -120,13 +194,6 @@ const SignupAgency = () => {
             fluid
           />
 
-          <Fields.Input
-            name="agencyPhoneNo"
-            type="number"
-            placeholder="Enter your AgencyPhoneNo"
-            className="login-input"
-            fluid
-          />
           <div style={{ display: "flex", justifyContent: "center" }}>
             <Button
               type="submit"
@@ -136,12 +203,15 @@ const SignupAgency = () => {
                 width: "83%",
                 marginTop: "8px",
               }}
+              disabled={loading}
             >
-              Submit
+              {loading ? "Signing up..." : "Submit"}
             </Button>
           </div>
         </Form>
       </div>
+
+      {/* Extra Links */}
       <p style={{ fontSize: "12px" }}>
         Become Our Agency{" "}
         <a href="#" style={{ color: "#ff6b6b", fontWeight: "bold" }}>
@@ -169,4 +239,4 @@ const SignupAgency = () => {
   );
 };
 
-export default SignupAgency;
+export default SignupForm;

@@ -39,7 +39,7 @@ const Nav = () => {
         </Grid.Column>
 
         {/* Right Section - Search */}
-        
+
         <Grid.Column
           computer={7}
           tablet={7}

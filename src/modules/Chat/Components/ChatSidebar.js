@@ -67,7 +67,12 @@ const ChatSidebar = ({ chatList, openChat }) => {
           >
             <Image src={chat.avatar} avatar />
             <div style={{ marginLeft: "10px", flex: 1 }}>
-              <strong>{chat.name}</strong>
+              <Header
+                as={"h4"}
+                style={{ color: theme.colors.black, margin: "0" }}
+              >
+                {chat.name}
+              </Header>
               <p style={{ fontSize: "12px", color: "gray" }}>
                 {chat.lastMessage}
               </p>

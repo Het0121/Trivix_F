@@ -58,6 +58,7 @@ const ProfileContainer = () => {
             background: "transparent",
             border: "none",
             boxShadow: "none",
+            marginBottom: "50px",
           }}
         >
           <Tweets />
