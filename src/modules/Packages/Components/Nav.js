@@ -32,7 +32,10 @@ const Nav = () => {
                 <Header as="h5" style={{ margin: 0 }}>
                   Current Location
                 </Header>
-                <CustomIcon name="map marker alternate" title={data?.city} />
+                <CustomIcon
+                  name="map marker alternate"
+                  title={data?.city || "Ahemdabad"}
+                />
               </div>
             </div>
           </a>

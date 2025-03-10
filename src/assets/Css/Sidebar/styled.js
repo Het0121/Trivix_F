@@ -28,42 +28,30 @@ export const MenuToggle = styled(Menu.Item)`
 `;
 
 // Sidebar Menu Items
-export const MenuItem = styled(Menu.Item)`
-  display: flex !important;
-  align-items: center !important;
-  gap: 15px !important;
+export const MenuItem = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   justify-content: center;
-  color: ${theme.colors.orange};
+  text-decoration: none;
+  cursor: pointer;
+  border-radius: 6px;
   transition: all 0.3s ease-in-out;
 
-  .menu-icon {
-    color: ${theme.colors.orange};
-    transition: color 0.3s ease-in-out;
-    font-size: 15px !important;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    min-width: 24px;
-    margin-left: 30px;
-  }
+  background-color: ${({ active }) =>
+    active ? theme.colors.orange : "transparent"};
 
-  .menu-header {
-    color: ${theme.colorsblack};
-    transition: color 0.3s ease-in-out;
-    display: flex !important;
-    align-items: center !important;
-    font-size: 16px !important;
-    font-weight: 500;
-    margin: 0;
+  .menu-icon {
+    color: ${({ active }) =>
+      active ? theme.colors.white : theme.colors.orange};
+    font-size: 20px;
   }
 
   &:hover {
     background-color: ${theme.colors.orange};
-    border-radius: 5px !important;
 
-    .menu-icon,
-    .menu-header {
-      color: ${theme.colors.primary} !important;
+    .menu-icon {
+      color: ${theme.colors.white};
     }
   }
 `;
@@ -138,7 +126,14 @@ export const SidebarItem = styled.a`
   width: 90%;
   display: flex;
   align-items: center;
-  color: ${theme.colors.black};
+  color: ${({ active }) =>
+    active
+      ? theme.colors.white
+      : theme.colors.black}; /* Change color when active */
+  background-color: ${({ active }) =>
+    active
+      ? theme.colors.orange
+      : "transparent"}; /* Change background when active */
   padding: 10px;
   gap: 10px;
   border-radius: 6px;
@@ -146,27 +141,34 @@ export const SidebarItem = styled.a`
   font-weight: 800 !important;
   text-decoration: none;
   transition: all 0.2s ease-in-out;
+
   .menu-icon {
-    color: ${theme.colors.orange}; /* Icon is now orange */
+    color: ${({ active }) =>
+      active
+        ? theme.colors.white
+        : theme.colors.orange}; /* Change icon color */
     font-size: 20px;
   }
+
   &:hover {
     background-color: ${theme.colors.orange};
     color: ${theme.colors.white};
+
     .menu-icon {
-      color: ${theme.colors.white}; /* Icon turns white on hover */
+      color: ${theme.colors.white};
     }
   }
 `;
+
 export const LogoutButton = styled(SidebarItem)`
   margin-top: auto;
   font-weight: bold;
-  color: ${theme.colors.blue};
+  color: ${theme.colors.title};
   .menu-icon {
-    color: ${theme.colors.blue};
+    color: ${theme.colors.orange};
   }
   &:hover {
-    background-color: ${theme.colors.blue};
+    background-color: ${theme.colors.orange};
     color: ${theme.colors.white};
     .menu-icon {
       color: ${theme.colors.white};

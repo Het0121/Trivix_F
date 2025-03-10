@@ -4,7 +4,16 @@ import { theme } from "../../Theme/theme";
 import Cardimg from "../../assets/images/card3.png";
 import CustomIcon from "../../shared/Icon";
 
-const TravelCard = ({ item, style = {} }) => {
+const TravelCard = ({ item, style = {}, handleNavigateDetailpage }) => {
+  // Calculate duration from startDate to endDate
+  const getDuration = (start, end) => {
+    if (!start || !end) return "";
+    const startDate = new Date(start);
+    const endDate = new Date(end);
+    const diffTime = Math.ceil((endDate - startDate) / (1000 * 60 * 60 * 24));
+    return `${diffTime} days`;
+  };
+
   return (
     <div
       style={{
@@ -18,8 +27,8 @@ const TravelCard = ({ item, style = {} }) => {
         style={{
           backgroundColor: theme.colors.white,
           color: theme.colors.white,
-          width: "300px",
-          height: "100%",
+          width: "250px",
+          height: "320px",
           borderRadius: "15px",
           overflow: "hidden",
           boxShadow: "none",
@@ -38,7 +47,11 @@ const TravelCard = ({ item, style = {} }) => {
           }}
         />
         <div style={{ position: "absolute", top: 10, right: 10 }}>
-          <CustomIcon name="heart outline" size="large" color="red" />
+          <CustomIcon
+            name="heart outline"
+            size="large"
+            style={{ color: theme.colors.white }}
+          />
         </div>
         <Card.Content style={{ gap: "10px" }}>
           <div
@@ -48,7 +61,10 @@ const TravelCard = ({ item, style = {} }) => {
               justifyContent: "space-between",
             }}
           >
-            <div>
+            <div
+              style={{ cursor: "pointer" }}
+              onClick={() => handleNavigateDetailpage(item._id)}
+            >
               <Card.Header
                 style={{
                   color: theme.colors.orange,
@@ -56,7 +72,7 @@ const TravelCard = ({ item, style = {} }) => {
                   fontWeight: "500",
                 }}
               >
-                {item.title || ""}
+                {item.title || "No Title"}
               </Card.Header>
               <Card.Header
                 style={{
@@ -66,16 +82,8 @@ const TravelCard = ({ item, style = {} }) => {
                   fontSize: "9px",
                 }}
               >
-                {item.duration || ""}
+                {getDuration(item.startDate, item.endDate)}
               </Card.Header>
-            </div>
-            <div>
-              <CustomIcon
-                name="plus circle"
-                size="big"
-                color="red"
-                style={{ color: "#fff" }}
-              />
             </div>
           </div>
           <Card.Description
@@ -100,18 +108,25 @@ const TravelCard = ({ item, style = {} }) => {
               />
             ))}
           </Card.Description>
-          <Card.Content extra style={{ marginTop: "10px" }}>
+          <Card.Content extra style={{ marginTop: "10px", minHeight: "60px" }}>
             <List bulleted>
-              {item.info.map((icon) => (
-                <ListItem
-                  style={{
-                    fontSize: "9px",
-                    color: theme.colors.gray,
-                  }}
-                >
-                  {icon}
-                </ListItem>
-              ))}
+              {item.activities && typeof item.activities[0] === "string"
+                ? item.activities[0].split(",").map((activity, index) => (
+                    <ListItem
+                      key={index}
+                      style={{ fontSize: "12px", color: theme.colors.gray }}
+                    >
+                      {activity.trim()}
+                    </ListItem>
+                  ))
+                : item.activities?.map((activity, index) => (
+                    <ListItem
+                      key={index}
+                      style={{ fontSize: "9px", color: theme.colors.gray }}
+                    >
+                      {activity}
+                    </ListItem>
+                  ))}
             </List>
           </Card.Content>
         </Card.Content>

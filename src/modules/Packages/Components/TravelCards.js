@@ -1,149 +1,65 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import CustomSlider from "../../../components/Slider";
 import TravelCard from "../../../components/Cards/TravelCard";
-import { useNavigate, useParams } from "react-router-dom";
 
-const TravelCards = ({ handleNavigateDetailpage }) => {
+const TravelCards = ({ handleNavigateDetailpage, data = [] }) => {
   const settings = {
-    dots: true,
-    infinite: true,
+    dots: false, // Remove dots to avoid overflow
+    infinite: false,
     speed: 500,
     slidesToShow: 7,
     slidesToScroll: 2,
     arrows: false,
-    centerMode: false, // Enables centering effect
-    centerPadding: "0px",
+    lazyLoad: "ondemand", // Improves performance
     responsive: [
-      {
-        breakpoint: 1444,
-        settings: { slidesToShow: 6, slidesToScroll: 3, centerPadding: "0px" },
-      },
-      {
-        breakpoint: 1025,
-        settings: { slidesToShow: 3, slidesToScroll: 1, centerPadding: "80px" },
-      },
-      {
-        breakpoint: 769,
-        settings: {
-          slidesToShow: 3,
-          slidesToScroll: 1,
-          centerPadding: "30px",
-        },
-      },
-      {
-        breakpoint: 450,
-        settings: {
-          slidesToShow: 2,
-          slidesToScroll: 1,
-          centerPadding: "0px",
-        },
-      },
+      { breakpoint: 1444, settings: { slidesToShow: 6, slidesToScroll: 3 } },
+      { breakpoint: 1025, settings: { slidesToShow: 3, slidesToScroll: 1 } },
+      { breakpoint: 769, settings: { slidesToShow: 3, slidesToScroll: 1 } },
+      { breakpoint: 450, settings: { slidesToShow: 2, slidesToScroll: 1 } },
     ],
   };
-  const travelData = [
-    {
-      id: 1,
-      title: "Swiss Alps",
-      duration: "3 Days 4 Nights",
-      info: [
-        "Tour combo with return airport transfer",
-        "City Tour",
-        "Curious Corner",
-        "Curious Corner",
-      ],
-    },
-    {
-      id: 2,
-      title: "Swiss Alps",
-      duration: "3 Days 4 Nights",
-      info: [
-        "Tour combo with return airport transfer",
-        "City Tour",
-        "Curious Corner",
-        "Curious Corner",
-      ],
-    },
-    {
-      id: 3,
-      title: "Swiss Alps",
-      duration: "3 Days 4 Nights",
-      info: [
-        "Tour combo with return airport transfer",
-        "City Tour",
-        "Curious Corner",
-        "Curious Corner",
-      ],
-    },
-    {
-      id: 4,
-      title: "Swiss Alps",
-      duration: "3 Days 4 Nights",
-      info: [
-        "Tour combo with return airport transfer",
-        "City Tour",
-        "Curious Corner",
-        "Curious Corner",
-      ],
-    },
-    {
-      id: 5,
-      title: "Swiss Alps",
-      duration: "3 Days 4 Nights",
-      info: [
-        "Tour combo with return airport transfer",
-        "City Tour",
-        "Curious Corner",
-        "Curious Corner",
-      ],
-    },
-    {
-      id: 6,
-      title: "Swiss Alps",
-      duration: "3 Days 4 Nights",
-      info: [
-        "Tour combo with return airport transfer",
-        "City Tour",
-        "Curious Corner",
-        "Curious Corner",
-      ],
-    },
-    {
-      id: 7,
-      title: "Swiss Alps",
-      duration: "3 Days 4 Nights",
-      info: [
-        "Tour combo with return airport transfer",
-        "City Tour",
-        "Curious Corner",
-        "Curious Corner",
-      ],
-    },
-    {
-      id: 8,
-      title: "Swiss Alps",
-      duration: "3 Days 4 Nights",
-      info: [
-        "Tour combo with return airport transfer",
-        "City Tour",
-        "Curious Corner",
-        "Curious Corner",
-      ],
-    },
-  ];
 
   return (
     <div style={{ padding: "20px 0px" }}>
       <CustomSlider settings={settings}>
-        {travelData.map((item, index) => (
-          <div
-            key={index}
-            style={{ padding: "20px 5px" }}
-            onClick={() => handleNavigateDetailpage(item.id)}
-          >
-            <TravelCard item={item} />
-          </div>
-        ))}
+        {data.length > 0 ? (
+          data.map((item, index) => (
+            <div
+              key={index}
+              style={{
+                padding: "20px 5px",
+                justifyContent: "flex-start",
+                display: "flex",
+              }}
+            >
+              <TravelCard
+                item={item}
+                handleNavigateDetailpage={handleNavigateDetailpage}
+              />
+            </div>
+          ))
+        ) : (
+          <p>No travel cards available</p>
+        )}
       </CustomSlider>
+
+      {/* {limit < data.length && (
+        <div style={{ textAlign: "center", marginTop: "20px" }}>
+          <button
+            onClick={loadMore}
+            style={{
+              padding: "10px 20px",
+              background: "#007bff",
+              color: "#fff",
+              border: "none",
+              borderRadius: "5px",
+              cursor: "pointer",
+            }}
+          >
+            Load More
+          </button>
+        </div>
+      )} */}
     </div>
   );
 };

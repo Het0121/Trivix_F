@@ -43,7 +43,11 @@ const CustomSidebar = () => {
           <SidebarHeader>Explorify</SidebarHeader>
           <SidebarMenu>
             {menuItems.map((item, index) => (
-              <SidebarItem key={index} href={item.url}>
+              <SidebarItem
+                key={index}
+                href={item.url}
+                active={location.pathname === item.url}
+              >
                 <CustomIcon name={item.icon} className="menu-icon" />
                 {item.name}
               </SidebarItem>
@@ -53,6 +57,7 @@ const CustomSidebar = () => {
               Logout
             </LogoutButton>
           </SidebarMenu>
+
           <div style={{ marginTop: "20px", width: "99%", top: "60px" }}>
             <ProfileCard />
           </div>

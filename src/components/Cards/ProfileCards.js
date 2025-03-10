@@ -38,7 +38,7 @@ const ProfileCard = () => {
           <Card.Meta style={{ display: "flex", marginLeft: "50px" }}>
             <CustomIcon
               name="map marker alternate"
-              title={data?.city || ""}
+              title={data?.city || "Ahemdabad"}
               style={{ display: "flex", gap: "10px" }}
             />
           </Card.Meta>

@@ -25,10 +25,10 @@ const CustomButton = ({
       className={className}
       onClick={onClick}
       animated={animated}
-      {...props}
       type={type}
       Loading={Loading}
       Disabled={Loading}
+      {...props}
     >
       {children}
     </Button>

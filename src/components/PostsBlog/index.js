@@ -5,6 +5,7 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import CustomIcon from "../../shared/Icon";
 import CommentSection from "../Comments";
+import { theme } from "../../Theme/theme";
 
 const ImageCarousel = ({ posts, isLaptop, isMobile }) => {
   const settings = {
@@ -119,8 +120,19 @@ const ImageCarousel = ({ posts, isLaptop, isMobile }) => {
               >
                 <Image src={post.userAvatar} avatar />
                 <Comment.Content>
-                  <Comment.Author>{post.username}</Comment.Author>
-                  <Comment.Text>{post.caption}</Comment.Text>
+                  <Header as={"h5"} style={{ margin: 0 }}>
+                    {post.username}
+                  </Header>
+                  <Header
+                    as={"h5"}
+                    style={{
+                      margin: 0,
+                      fontWeight: "400",
+                      color: theme.colors.subtext,
+                    }}
+                  >
+                    {post.caption}
+                  </Header>
                 </Comment.Content>
               </Comment>
               <CustomIcon name="ellipsis vertical" />
